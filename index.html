@@ -13,9 +13,9 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
-            background: #e0c3fc; /* Color base lila claro */
+            background: #8a9ba8; /* Fondo azul grisáceo */
             font-family: Arial, sans-serif;
-            color: #fff;
+            color: #d4d7dd; /* Color de texto gris claro */
         }
 
         /* Estilos para la animación de fondo */
@@ -29,7 +29,7 @@
             background-size: cover;
             animation: slide 30s infinite alternate;
             z-index: -1;
-            filter: blur(8px) brightness(0.7);
+            filter: blur(8px) brightness(0.5);
         }
 
         @keyframes slide {
@@ -47,18 +47,18 @@
         #countdown {
             text-align: center;
             font-size: 2em;
-            background: rgba(76, 0, 130, 0.7); /* Fondo con tono lila */
+            background: rgba(50, 60, 70, 0.7); /* Fondo gris oscuro */
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            color: #e0b3ff;
+            color: #a3b1c1; /* Color gris azulado */
         }
 
         #timer {
             font-size: 1.5em;
             margin-top: 10px;
             display: block;
-            color: #dfc3f2; /* Tono lila claro */
+            color: #c2c8d0; /* Tono gris suave */
         }
 
         #action-button {
@@ -67,7 +67,7 @@
             padding: 10px 20px;
             font-size: 1em;
             color: #fff;
-            background-color: #6a0dad; /* Tono lila para el botón */
+            background-color: #4a5562; /* Tono gris azulado oscuro para el botón */
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -75,7 +75,7 @@
         }
 
         #action-button:hover {
-            background-color: #5c00a3; /* Tono lila más oscuro al pasar el cursor */
+            background-color: #3a4a54; /* Tono gris más oscuro al pasar el cursor */
         }
     </style>
 </head>
@@ -88,7 +88,7 @@
         <button id="action-button" onclick="window.open('yas.html', '_blank')">Abrir Enlace</button> <!-- Botón para abrir el enlace -->
     </div>
 
-    <!-- Reproductor de audio con autoplay y muted -->
+    <!-- Reproductor de audio -->
     <audio id="background-audio" src="audio1.mp3" autoplay muted loop></audio> <!-- Cambia 'audio.mp3' por la ruta de tu archivo de audio -->
 
     <script>
@@ -97,15 +97,17 @@
 
         // Forzar la reproducción cuando la página cargue
         window.onload = () => {
-            // Activar sonido y reproducir al cargar la página
-            audio.muted = false;
-            audio.play().catch(error => {
-                console.error('Error al intentar reproducir el audio:', error);
-            });
+            // Permitir al usuario iniciar el audio al tocar la pantalla
+            document.body.addEventListener('click', () => {
+                audio.muted = false;
+                audio.play().catch(error => {
+                    console.error('Error al intentar reproducir el audio:', error);
+                });
+            }, { once: true }); // Se ejecuta solo una vez al tocar la pantalla
         };
 
         // Fecha objetivo: 15 de septiembre de 2024
-        const targetDate = new Date('September 15, 2024 00:00:00').getTime();
+        const targetDate = new Date('September 01, 2024 00:00:00').getTime();
 
         const countdown = setInterval(() => {
             const now = new Date().getTime();
@@ -127,22 +129,6 @@
                 document.getElementById("action-button").style.display = 'inline-block'; // Muestra el botón
             }
         }, 1000);
-
-        // Pausar el audio si la página no está visible
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                audio.pause();
-            } else {
-                audio.play().catch(error => {
-                    console.error('Error al intentar reproducir el audio:', error);
-                });
-            }
-        });
-
-        // Pausar el audio al cerrar la pestaña
-        window.addEventListener('beforeunload', () => {
-            audio.pause();
-        });
     </script>
 </body>
 </html>
