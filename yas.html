@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fondo de Imagen con Tablero</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Evitar scroll cuando el fondo se mueve */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+        }
+
+        /* Contenedor para la animación de fondo */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background-image {
+            position: absolute;
+            width: 110%;
+            height: 110%;
+            background-image: url('IMG_20230302_142229.jpg'); /* Ruta de la imagen */
+            background-size: cover;
+            background-position: center;
+            animation: moveBackground 30s infinite alternate; /* Animación del fondo */
+        }
+
+        /* Animación del fondo */
+        @keyframes moveBackground {
+            0% {
+                transform: translate(0, 0) scale(1.05);
+            }
+            50% {
+                transform: translate(-10px, -10px) scale(1.1);
+            }
+            100% {
+                transform: translate(10px, 10px) scale(1.05);
+            }
+        }
+
+        .tablero {
+            background: rgba(128, 0, 128, 0.6); /* Fondo morado transparente */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            width: 350px;
+            text-align: center;
+            color: #d2b4de; /* Color lila claro para el texto */
+            opacity: 0;
+            transform: scale(0.8);
+            animation: fadeIn 1s forwards; /* Animación de entrada */
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .tablero h2 {
+            margin-bottom: 20px;
+            color: #c39bd3; /* Tono lila para el título */
+            font-size: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #c39bd3; /* Tono lila claro */
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ce93d8; /* Borde lila */
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.2); /* Fondo semi-transparente */
+            color: #ffffff; /* Texto blanco */
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #ab47bc; /* Borde más intenso al enfocar */
+        }
+
+        .button {
+            padding: 12px 25px;
+            background-color: #9c27b0; /* Botón morado */
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #7b1fa2; /* Cambio de color al pasar el mouse */
+        }
+
+        .error {
+            color: #ff1744; /* Rojo para el mensaje de error */
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Contenedor para la animación de fondo -->
+    <div class="background-container">
+        <div class="background-image"></div>
+    </div>
+
+    <div class="tablero">
+        <h2>Ingresar Contraseña</h2>
+        <form id="passwordForm">
+            <div class="input-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="button">Enviar</button>
+            <p id="error-message" class="error"></p>
+        </form>
+    </div>
+
+    <script>
+        // Contraseña correcta (puedes cambiarla según tus necesidades)
+        const correctPassword = '12345'; // Cambia esto por la contraseña deseada
+
+        // Obtener el formulario y el mensaje de error
+        const form = document.getElementById('passwordForm');
+        const errorMessage = document.getElementById('error-message');
+
+        // Agregar evento de envío al formulario
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // Evitar el envío del formulario
+
+            // Obtener el valor del campo de contraseña
+            const password = document.getElementById('password').value;
+
+            // Verificar si la contraseña es correcta
+            if (password === correctPassword) {
+                window.location.href = 'https://www.youtube.com/watch?v=IMbW-slqPcw&list=RDF6lfbnj-z2k&index=13'; // Redirigir a la página deseada
+            } else {
+                errorMessage.textContent = 'Contraseña incorrecta. Inténtalo de nuevo.'; // Mostrar mensaje de error
+            }
+        });
+    </script>
+
+</body>
+</html>
