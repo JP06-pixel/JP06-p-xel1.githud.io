@@ -83,7 +83,10 @@
     <div class="background-animation"></div>
 
     <div id="countdown">
-        <p>Cuenta regresiva para el 15 de septiembre de 2024:</p>
+                <p>seguir los pasos indicaos</p>
+                <p>oprime la pantalla</p>
+
+        <p>Cuenta regresiva</p>
         <span id="timer"></span>
         <button id="action-button" onclick="window.open('yas.html', '_blank')">Abrir Enlace</button> <!-- Botón para abrir el enlace -->
     </div>
@@ -107,7 +110,7 @@
         };
 
         // Fecha objetivo: 15 de septiembre de 2024
-        const targetDate = new Date('September 01, 2024 00:00:00').getTime();
+        const targetDate = new Date('September 15, 2024 00:00:00').getTime();
 
         const countdown = setInterval(() => {
             const now = new Date().getTime();
@@ -125,7 +128,7 @@
             // Si la cuenta regresiva termina
             if (distance < 0) {
                 clearInterval(countdown);
-                document.getElementById("timer").innerHTML = "¡Llegó el día!";
+                document.getElementById("timer").innerHTML = "😁 ¡Llegó el día! 😁";
                 document.getElementById("action-button").style.display = 'inline-block'; // Muestra el botón
             }
         }, 1000);
