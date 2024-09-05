@@ -88,7 +88,22 @@
         <button id="action-button" onclick="window.open('yas.html', '_blank')">Abrir Enlace</button> <!-- Botón para abrir el enlace -->
     </div>
 
+    <!-- Reproductor de audio con autoplay y muted -->
+    <audio id="background-audio" src="audio1.mp3" autoplay muted loop></audio> <!-- Cambia 'audio.mp3' por la ruta de tu archivo de audio -->
+
     <script>
+        // Obtener el elemento de audio
+        const audio = document.getElementById('background-audio');
+
+        // Forzar la reproducción cuando la página cargue
+        window.onload = () => {
+            // Activar sonido y reproducir al cargar la página
+            audio.muted = false;
+            audio.play().catch(error => {
+                console.error('Error al intentar reproducir el audio:', error);
+            });
+        };
+
         // Fecha objetivo: 15 de septiembre de 2024
         const targetDate = new Date('September 15, 2024 00:00:00').getTime();
 
@@ -112,6 +127,22 @@
                 document.getElementById("action-button").style.display = 'inline-block'; // Muestra el botón
             }
         }, 1000);
+
+        // Pausar el audio si la página no está visible
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                audio.pause();
+            } else {
+                audio.play().catch(error => {
+                    console.error('Error al intentar reproducir el audio:', error);
+                });
+            }
+        });
+
+        // Pausar el audio al cerrar la pestaña
+        window.addEventListener('beforeunload', () => {
+            audio.pause();
+        });
     </script>
 </body>
 </html>
