@@ -2,117 +2,177 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galería de Fotos</title>
+    <title>Álbum de Fotos</title>
     <style>
-        body {
+        * {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .gallery-container {
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Cambiado para que el álbum no esté centrado verticalmente */
+            height: 100vh;
+            background-color: #f4f4f4;
+            background-image: url('fondo1.jpg'); /* Imagen de fondo */
+            background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+            background-position: center; /* Centra la imagen */
+            overflow: hidden; /* Evita el scroll en la página */
+        }
+
+        .album {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(6, 180px); /* Ajusta el tamaño de las columnas */
+            grid-template-rows: repeat(6, 120px); /* Ajusta el tamaño de las filas */
             gap: 15px;
             padding: 20px;
+            background-color: transparent;
+            margin-top: 50px; /* Margen superior para bajar el álbum */
+            box-shadow: none;
+            border-radius: 0;
+            width: 1140px; /* Ajusta el tamaño total del álbum */
+            height: 840px; /* Ajusta el tamaño total del álbum */
+            overflow: hidden; /* Evita el scroll interno */
         }
 
-        .gallery-item {
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
+        .photo, .special {
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            text-align: center;
+            color: #333;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        .photo {
+            width: 180px;
+            height: 120px;
+            border: none; /* Sin borde para las fotos */
         }
 
-        .gallery-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.5s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-
-        /* Lightbox Styles */
-        #lightbox {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .photo img {
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            object-fit: cover;
+            opacity: 1; /* Totalmente visible */
+            transition: opacity 1s ease-in-out;
         }
 
-        #lightbox img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 8px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        #lightbox.visible {
-            visibility: visible;
+        .photo.show img {
             opacity: 1;
+        }
+
+        .photo:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.05);
+            transition: 0.2s;
+        }
+
+        .special {
+            background-color: #ff7f50; /* Fondo coral para el apartado especial */
+            font-weight: bold;
+            color: white;
+            grid-column: 3 / 5;
+            grid-row: 2 / 4;
+            border-radius: 12px;
         }
     </style>
 </head>
 <body>
-
-<div class="gallery-container">
-    <!-- Repite esta sección para cada imagen -->
-    <div class="gallery-item">
-        <img src="https://via.placeholder.com/300" alt="Imagen 1">
+    <div class="album">
+        <!-- Contenedores para las fotos -->
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="special">Apartado especial</div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
     </div>
-    <div class="gallery-item">
-        <img src="https://via.placeholder.com/300" alt="Imagen 2">
-    </div>
-    <div class="gallery-item">
-        <img src="https://via.placeholder.com/300" alt="Imagen 3">
-    </div>
-    <!-- Continúa añadiendo más imágenes -->
-</div>
 
-<!-- Lightbox para mostrar la imagen ampliada -->
-<div id="lightbox">
-    <img src="" alt="Ampliada">
-</div>
+    <!-- Elemento de audio -->
+    <audio id="background-audio" autoplay loop>
+        <source src="musica.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
 
-<script>
-    // Selección del lightbox y sus eventos
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = lightbox.querySelector('img');
+    <script>
+        // Array de rutas de imágenes
+        const images = [
+            "foto1.jpg", "foto2.jpg", "foto3.jpg", "foto4.jpg", "foto5.jpg", "foto6.jpg",
+            "foto7.jpg", "foto8.jpg", "foto9.jpg", "foto10.jpg", "foto11.jpg", "foto12.jpg",
+            "foto13.jpg", "foto14.jpg", "foto15.jpg", "foto16.jpg", "foto17.jpg", "foto18.jpg",
+            "foto19.jpg", "foto20.jpg", "foto21.jpg", "foto22.jpg", "foto23.jpg", "foto24.jpg",
+            "foto25.jpg", "foto26.jpg", "foto27.jpg", "foto28.jpg", "foto29.jpg", "foto30.jpg",
+            "foto31.jpg", "foto32.jpg", "foto33.jpg", "foto34.jpg", "foto35.jpg", "foto36.jpg",
+            "foto37.jpg", "foto38.jpg", "foto39.jpg", "foto40.jpg", "foto41.jpg", "foto42.jpg", 
+            "foto43.jpg", "foto44.jpg", "foto45.jpg", "foto46.jpg", "foto47.jpg", "foto48.jpg"
+        ];
 
-    // Añadir evento a cada imagen
-    document.querySelectorAll('.gallery-item img').forEach(img => {
-        img.addEventListener('click', () => {
-            lightboxImg.src = img.src;
-            lightbox.classList.add('visible');
-        });
-    });
+        // Función para obtener 3 índices aleatorios
+        function getRandomIndexes(total, count) {
+            const indexes = [];
+            while (indexes.length < count) {
+                const index = Math.floor(Math.random() * total);
+                if (!indexes.includes(index)) {
+                    indexes.push(index);
+                }
+            }
+            return indexes;
+        }
 
-    // Cerrar lightbox al hacer clic fuera de la imagen
-    lightbox.addEventListener('click', () => {
-        lightbox.classList.remove('visible');
-    });
-</script>
+        // Función para cambiar las imágenes
+        function changeImages() {
+            const photoDivs = document.querySelectorAll('.photo');
+            const randomIndexes = getRandomIndexes(images.length, photoDivs.length);
 
+            photoDivs.forEach((photoDiv, i) => {
+                // Limpiar el contenido
+                photoDiv.innerHTML = '';
+                
+                // Crear y agregar una nueva imagen
+                const img = document.createElement('img');
+                img.src = images[randomIndexes[i]];
+                photoDiv.appendChild(img);
+                
+                // Mostrar la imagen
+                setTimeout(() => {
+                    photoDiv.classList.add('show');
+                }, 100);
+                
+                // Ocultar la imagen después de 5 segundos
+                setTimeout(() => {
+                    photoDiv.classList.remove('show');
+                }, 5000);
+            });
+        }
+
+        // Cambiar imágenes cada 5 segundos
+        setInterval(changeImages, 5000);
+        // Inicializar el cambio de imágenes
+        changeImages();
+    </script>
 </body>
 </html>
