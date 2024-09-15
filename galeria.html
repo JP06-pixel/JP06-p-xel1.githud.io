@@ -251,102 +251,100 @@
     </div>
 
   <!-- Botón de redirección a la izquierda del álbum -->
-<a id="redirectButton" href="https://jp06-pixel.github.io/JP06-p-xel1.githud.io/cuentaregresiva2.html">Ir a una página diferente</a>
+<a id="redirectButton" href="javascript:void(0);" onclick="window.location.href='https://jp06-pixel.github.io/JP06-p-xel1.github.io/cuentaregresiva2.html';">Ir a una página diferente</a>
 
 <div id="myModal" class="modal">
     <span class="close">&times;</span>
     <img class="modal-content" id="img01">
 </div>
 
+<script>
+    const images = [
+        "foto1.jpg", "foto2.jpg", "foto3.jpg", "foto4.jpg", "foto5.jpg", "foto6.jpg",
+        "foto7.jpg", "foto8.jpg", "foto9.jpg", "foto10.jpg", "foto11.jpg", "foto12.jpg"
+    ];
 
-    <script>
-        const images = [
-            "foto1.jpg", "foto2.jpg", "foto3.jpg", "foto4.jpg", "foto5.jpg", "foto6.jpg",
-            "foto7.jpg", "foto8.jpg", "foto9.jpg", "foto10.jpg", "foto11.jpg", "foto12.jpg",
-            "foto13.jpg", "foto14.jpg", "foto15.jpg", "foto16.jpg", "foto17.jpg", "foto18.jpg",
-            "foto19.jpg", "foto20.jpg", "foto21.jpg", "foto22.jpg", "foto23.jpg", "foto24.jpg",
-            "foto25.jpg", "foto26.jpg", "foto27.jpg", "foto28.jpg", "foto29.jpg", "foto30.jpg",
-            "foto31.jpg", "foto32.jpg", "foto33.jpg", "foto34.jpg", "foto35.jpg", "foto36.jpg",
-            "foto37.jpg", "foto38.jpg", "foto39.jpg", "foto40.jpg", "foto41.jpg", "foto42.jpg",
-            "foto43.jpg", "foto44.jpg", "foto45.jpg", "foto46.jpg", "foto47.jpg", "foto48.jpg"
-        ];
-
-        function getRandomIndexes(total, count) {
-            const indexes = [];
-            while (indexes.length < count) {
-                const index = Math.floor(Math.random() * total);
-                if (!indexes.includes(index)) {
-                    indexes.push(index);
-                }
+    function getRandomIndexes(total, count) {
+        const indexes = [];
+        while (indexes.length < count) {
+            const index = Math.floor(Math.random() * total);
+            if (!indexes.includes(index)) {
+                indexes.push(index);
             }
-            return indexes;
         }
+        return indexes;
+    }
 
-        function changeImages() {
-            const photoDivs = document.querySelectorAll('.photo');
-            const randomIndexes = getRandomIndexes(images.length, photoDivs.length);
+    function changeImages() {
+        const photoDivs = document.querySelectorAll('.photo');
+        const randomIndexes = getRandomIndexes(images.length, photoDivs.length);
 
-            photoDivs.forEach((photoDiv, i) => {
-                photoDiv.innerHTML = '';
-                const img = document.createElement('img');
-                img.src = images[randomIndexes[i]];
-                img.onclick = openModal;
-                photoDiv.appendChild(img);
+        photoDivs.forEach((photoDiv, i) => {
+            photoDiv.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = images[randomIndexes[i]];
+            img.onclick = openModal;
+            photoDiv.appendChild(img);
 
-                setTimeout(() => {
-                    photoDiv.classList.add('show');
-                }, 50);
+            setTimeout(() => {
+                photoDiv.classList.add('show');
+            }, 50);
 
-                setTimeout(() => {
-                    photoDiv.classList.remove('show');
-                }, 5000);
-            });
-        }
+            setTimeout(() => {
+                photoDiv.classList.remove('show');
+            }, 5000);
+        });
+    }
 
-        setInterval(changeImages, 5000);
-        changeImages();
+    setInterval(changeImages, 5000);
+    changeImages();
 
-        const modal = document.getElementById("myModal");
-        const modalImg = document.getElementById("img01");
-        const span = document.getElementsByClassName("close")[0];
+    // Reproducir y pausar el audio
+    const backgroundAudio = document.getElementById("background-audio");
+    const startAudioButton = document.getElementById("startAudioButton");
+    const pauseAudioButton = document.getElementById("pauseAudioButton");
 
-        function openModal(event) {
-            modal.style.display = "block";
-            modalImg.src = event.target.src;
-        }
+    startAudioButton.addEventListener("click", function() {
+        backgroundAudio.play();
+        startAudioButton.style.display = "none";
+        pauseAudioButton.style.display = "inline";
+    });
 
-        span.onclick = function() {
+    pauseAudioButton.addEventListener("click", function() {
+        backgroundAudio.pause();
+        startAudioButton.style.display = "inline";
+        pauseAudioButton.style.display = "none";
+    });
+
+    // Mostrar botón de redirección cuando el video termine
+    const video = document.getElementById("specialVideo");
+    const button = document.getElementById("redirectButton");
+
+    video.onended = function() {
+        console.log("El video ha terminado");
+        button.style.display = "block";  // Mostrar el botón cuando el video termine
+    };
+
+    // Función para abrir el modal
+    const modal = document.getElementById("myModal");
+    const modalImg = document.getElementById("img01");
+    const closeBtn = document.getElementsByClassName("close")[0];
+
+    function openModal() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+    }
+
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
             modal.style.display = "none";
         }
+    }
+</script>
 
-        const video = document.getElementById("specialVideo");
-        const button = document.getElementById("redirectButton");
-
-        video.onended = function() {
-            button.style.display = "block";
-        };
-
-        const audio = document.getElementById("background-audio");
-        const startAudioButton = document.getElementById("startAudioButton");
-        const pauseAudioButton = document.getElementById("pauseAudioButton");
-
-        startAudioButton.addEventListener("click", function() {
-            audio.play().catch(function(error) {
-                console.error("Error al reproducir el audio:", error);
-            });
-            this.style.display = "none"; // Ocultar el botón de iniciar
-            pauseAudioButton.style.display = "inline-block"; // Mostrar el botón de pausa
-        });
-
-        pauseAudioButton.addEventListener("click", function() {
-            if (!audio.paused) {
-                audio.pause();
-                this.textContent = "Reanudar Audio"; // Cambiar el texto a 'Reanudar'
-            } else {
-                audio.play();
-                this.textContent = "Pausar Audio"; // Cambiar el texto a 'Pausar'
-            }
-        });
-    </script>
 </body>
 </html>
