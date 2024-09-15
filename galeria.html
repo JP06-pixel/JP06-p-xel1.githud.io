@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Álbum de Fotos</title>
+    <title>Galería de Imágenes Dinámica</title>
     <style>
         * {
             margin: 0;
@@ -15,28 +15,51 @@
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Cambiado para que el álbum no esté centrado verticalmente */
+            align-items: center;
+            flex-direction: column;
             height: 100vh;
             background-color: #f4f4f4;
-            background-image: url('fondo1.jpg'); /* Imagen de fondo */
-            background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
-            background-position: center; /* Centra la imagen */
-            overflow: hidden; /* Evita el scroll en la página */
+            background-image: url('fondo1.jpg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 4em;
+            color: #ff7f50;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .album {
             display: grid;
-            grid-template-columns: repeat(6, 180px); /* Ajusta el tamaño de las columnas */
-            grid-template-rows: repeat(6, 120px); /* Ajusta el tamaño de las filas */
+            grid-template-columns: repeat(4, 180px);
+            grid-template-rows: repeat(4, 120px);
             gap: 15px;
             padding: 20px;
             background-color: transparent;
-            margin-top: 50px; /* Margen superior para bajar el álbum */
+            margin-bottom: 20px;
             box-shadow: none;
             border-radius: 0;
-            width: 1140px; /* Ajusta el tamaño total del álbum */
-            height: 840px; /* Ajusta el tamaño total del álbum */
-            overflow: hidden; /* Evita el scroll interno */
+            width: fit-content;
+            height: fit-content;
+            animation: bounceIn 2s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .photo, .special {
@@ -51,19 +74,21 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
         }
 
         .photo {
             width: 180px;
             height: 120px;
-            border: none; /* Sin borde para las fotos */
+            border: none;
         }
 
         .photo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 1; /* Totalmente visible */
+            opacity: 1;
             transition: opacity 1s ease-in-out;
         }
 
@@ -73,34 +98,147 @@
 
         .photo:hover {
             background-color: #f0f0f0;
-            transform: scale(1.05);
-            transition: 0.2s;
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         .special {
-            background-color: #ff7f50; /* Fondo coral para el apartado especial */
+            background-color: #ff7f50;
             font-weight: bold;
             color: white;
-            grid-column: 3 / 5;
+            grid-column: 2 / 4;
             grid-row: 2 / 4;
             border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .special video {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+
+        #audioContainer {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: fit-content;
+        }
+
+        #audioContainer audio {
+            width: 300px;
+        }
+
+        #startAudioButton, #pauseAudioButton {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ff7f50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+
+        #startAudioButton:hover, #pauseAudioButton:hover {
+            background-color: #ff5722;
+        }
+
+        #redirectButton {
+            position: absolute;
+            left: 20px;
+            top: 200px;
+            display: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ff7f50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        #redirectButton:hover {
+            background-color: #ff5722;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 80%;
+        }
+
+        .modal-content, .modal-content img {
+            width: 100%;
+            height: auto;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
+    <h1>OTOÑO</h1>
+    
+    <!-- Apartado de audio -->
+    <div id="audioContainer">
+        <audio id="background-audio" loop>
+            <source src="mensaje.mp4" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+        <button id="startAudioButton">Iniciar Audio</button>
+        <button id="pauseAudioButton" style="display:none;">Pausar Audio</button>
+    </div>
+
     <div class="album">
-        <!-- Contenedores para las fotos -->
         <div class="photo"></div>
         <div class="photo"></div>
         <div class="photo"></div>
-        <div class="special">Apartado especial</div>
-        <div class="photo"></div>
-        <div class="photo"></div>
-        <div class="photo"></div>
-        <div class="photo"></div>
-        <div class="photo"></div>
-        <div class="photo"></div>
-        <div class="photo"></div>
+        <div class="special">
+            <video id="specialVideo" controls>
+                <source src="DIJE.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de videos.
+            </video>
+        </div>
         <div class="photo"></div>
         <div class="photo"></div>
         <div class="photo"></div>
@@ -112,14 +250,15 @@
         <div class="photo"></div>
     </div>
 
-    <!-- Elemento de audio -->
-    <audio id="background-audio" autoplay loop>
-        <source src="musica.mp3" type="audio/mpeg">
-        Tu navegador no soporta el elemento de audio.
-    </audio>
+    <!-- Botón de redirección a la izquierda del álbum -->
+    <a id="redirectButton" href="https://ejemplo.com">Ir a una página diferente</a>
+
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+    </div>
 
     <script>
-        // Array de rutas de imágenes
         const images = [
             "foto1.jpg", "foto2.jpg", "foto3.jpg", "foto4.jpg", "foto5.jpg", "foto6.jpg",
             "foto7.jpg", "foto8.jpg", "foto9.jpg", "foto10.jpg", "foto11.jpg", "foto12.jpg",
@@ -127,11 +266,10 @@
             "foto19.jpg", "foto20.jpg", "foto21.jpg", "foto22.jpg", "foto23.jpg", "foto24.jpg",
             "foto25.jpg", "foto26.jpg", "foto27.jpg", "foto28.jpg", "foto29.jpg", "foto30.jpg",
             "foto31.jpg", "foto32.jpg", "foto33.jpg", "foto34.jpg", "foto35.jpg", "foto36.jpg",
-            "foto37.jpg", "foto38.jpg", "foto39.jpg", "foto40.jpg", "foto41.jpg", "foto42.jpg", 
+            "foto37.jpg", "foto38.jpg", "foto39.jpg", "foto40.jpg", "foto41.jpg", "foto42.jpg",
             "foto43.jpg", "foto44.jpg", "foto45.jpg", "foto46.jpg", "foto47.jpg", "foto48.jpg"
         ];
 
-        // Función para obtener 3 índices aleatorios
         function getRandomIndexes(total, count) {
             const indexes = [];
             while (indexes.length < count) {
@@ -143,36 +281,71 @@
             return indexes;
         }
 
-        // Función para cambiar las imágenes
         function changeImages() {
             const photoDivs = document.querySelectorAll('.photo');
             const randomIndexes = getRandomIndexes(images.length, photoDivs.length);
 
             photoDivs.forEach((photoDiv, i) => {
-                // Limpiar el contenido
                 photoDiv.innerHTML = '';
-                
-                // Crear y agregar una nueva imagen
                 const img = document.createElement('img');
                 img.src = images[randomIndexes[i]];
+                img.onclick = openModal;
                 photoDiv.appendChild(img);
-                
-                // Mostrar la imagen
+
                 setTimeout(() => {
                     photoDiv.classList.add('show');
-                }, 100);
-                
-                // Ocultar la imagen después de 5 segundos
+                }, 50);
+
                 setTimeout(() => {
                     photoDiv.classList.remove('show');
                 }, 5000);
             });
         }
 
-        // Cambiar imágenes cada 5 segundos
         setInterval(changeImages, 5000);
-        // Inicializar el cambio de imágenes
         changeImages();
+
+        const modal = document.getElementById("myModal");
+        const modalImg = document.getElementById("img01");
+        const span = document.getElementsByClassName("close")[0];
+
+        function openModal(event) {
+            modal.style.display = "block";
+            modalImg.src = event.target.src;
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        const video = document.getElementById("specialVideo");
+        const button = document.getElementById("redirectButton");
+
+        video.onended = function() {
+            button.style.display = "block";
+        };
+
+        const audio = document.getElementById("background-audio");
+        const startAudioButton = document.getElementById("startAudioButton");
+        const pauseAudioButton = document.getElementById("pauseAudioButton");
+
+        startAudioButton.addEventListener("click", function() {
+            audio.play().catch(function(error) {
+                console.error("Error al reproducir el audio:", error);
+            });
+            this.style.display = "none"; // Ocultar el botón de iniciar
+            pauseAudioButton.style.display = "inline-block"; // Mostrar el botón de pausa
+        });
+
+        pauseAudioButton.addEventListener("click", function() {
+            if (!audio.paused) {
+                audio.pause();
+                this.textContent = "Reanudar Audio"; // Cambiar el texto a 'Reanudar'
+            } else {
+                audio.play();
+                this.textContent = "Pausar Audio"; // Cambiar el texto a 'Pausar'
+            }
+        });
     </script>
 </body>
 </html>
