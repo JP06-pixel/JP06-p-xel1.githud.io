@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERANO</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            background: #ffe7a0; /* Fondo amarillo suave */
+            font-family: Arial, sans-serif;
+            color: #f04e30; /* Texto rojo anaranjado */
+        }
+
+        /* Estilos para la animación de fondo */
+        .background-animation {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: url('gato.jpg') no-repeat center center fixed;
+            background-size: cover;
+            animation: slide 30s infinite alternate;
+            z-index: -1;
+            filter: blur(6px) brightness(0.9);
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translate(0, 0) scale(1.05);
+            }
+            50% {
+                transform: translate(-10%, 10%) scale(1.1);
+            }
+            100% {
+                transform: translate(10%, -10%) scale(1.05);
+            }
+        }
+
+        #countdown {
+            text-align: center;
+            font-size: 2em;
+            background: rgba(255, 255, 255, 0.8); /* Fondo blanco translúcido */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            color: #f04e30; /* Texto rojo anaranjado */
+        }
+
+        #timer {
+            font-size: 1.5em;
+            margin-top: 10px;
+            display: block;
+            color: #ff914d; /* Naranja brillante */
+        }
+
+        /* Estilos para el overlay de carga */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: #fff;
+            font-size: 2em;
+            display: none; /* Oculto por defecto */
+        }
+
+        .spinner {
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            border-top: 8px solid #ffffff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #action-button {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #ff5e57; /* Rojo vibrante */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: glow 1.5s infinite alternate, shake 0.5s infinite;
+        }
+
+        /* Efecto de resplandor */
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+                background-color: #ff847c; /* Naranja coral */
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 100, 100, 0.6);
+                background-color: #ff5e57; /* Rojo vibrante */
+            }
+        }
+
+        /* Efecto de vibración */
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-3px);
+            }
+            50% {
+                transform: translateX(3px);
+            }
+            75% {
+                transform: translateX(-3px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+
+    <div id="countdown">
+        <p>Oprime la pantalla</p>
+
+        <p>Cuenta regresiva de verano</p>
+        <span id="timer"></span>
+        <button id="action-button" style="display: none;" onclick="navigateTo('yas.html')">Abrir Enlace</button> <!-- Botón oculto inicialmente -->
+    </div>
+
+    <!-- Overlay de carga -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <p>Cargando...</p>
+    </div>
+
+    <!-- Reproductor de audio -->
+    <audio id="background-audio" src="Limón.mp3" autoplay muted loop></audio>
+
+    <script>
+        const audio = document.getElementById('background-audio');
+
+        // Inicia el audio al tocar la pantalla
+        window.onload = () => {
+            document.body.addEventListener('click', () => {
+                audio.muted = false;
+                audio.play().catch(error => {
+                    console.error('Error al intentar reproducir el audio:', error);
+                });
+            }, { once: true });
+        };
+
+        // Pausar el audio cuando se sale de la página
+        window.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                audio.pause();
+            }
+        });
+
+        // Mostrar animación de carga y redirigir a la nueva página
+        function navigateTo(url) {
+            const overlay = document.getElementById('loading-overlay');
+            overlay.style.display = 'flex'; // Mostrar la animación de carga
+            setTimeout(() => {
+                window.location.href = url;
+            }, 1000); // Tiempo para mostrar la animación antes de redirigir
+        }
+
+        // Fecha objetivo: 15 de septiembre de 2024
+        const targetDate = new Date('September 18, 2024 00:00:00').getTime();
+
+        const countdown = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("timer").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            // Si la cuenta regresiva termina
+            if (distance < 0) {
+                clearInterval(countdown);
+                document.getElementById("timer").innerHTML = "VERANO";
+                document.getElementById("action-button").style.display = 'inline-block'; // Muestra el botón al finalizar la cuenta
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
