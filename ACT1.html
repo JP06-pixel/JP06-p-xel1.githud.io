@@ -79,16 +79,15 @@
     <label for="studentName">Nombre del estudiante:</label>
     <input type="text" id="studentName" placeholder="Ingresa tu nombre">
     <br><br>
-    <video width="320" height="240" controls>
-        <source src="VI.mp4" type="video/mp4">
-        Tu navegador no soporta la etiqueta de video.
-    </video>
+    <img src="imagen.jpg" alt="Imagen relacionada" width="320" height="240">
     <div class="container">
         <div class="column" id="nahuatlWords"></div>
         <div class="column" id="spanishMeanings"></div>
     </div>
     <button onclick="checkResults()">Verificar respuestas</button>
     <p id="result"></p>
+    <h3>Escribe una oración usando las palabras aprendidas:</h3>
+    <textarea id="sentenceInput" rows="4" cols="50" placeholder="Escribe aquí..."></textarea>
     <script>
         const words = [
             { nahuatl: "Atl", spanish: "Agua", audio: "atl.mp3" },
@@ -130,33 +129,6 @@
                 meaningDiv.onclick = () => selectWord(index, meaningDiv, "spanish");
                 spanishContainer.appendChild(meaningDiv);
             });
-        }
-
-        function selectWord(index, element, type) {
-            if (selections[type]) {
-                selections[type].element.classList.remove("selected");
-            }
-            selections[type] = { index, element };
-            element.classList.add("selected");
-            
-            if (selections.nahuatl && selections.spanish) {
-                checkMatch();
-            }
-        }
-
-        function checkMatch() {
-            let { index: nahuatlIndex, element: nahuatlElement } = selections.nahuatl;
-            let { index: spanishIndex, element: spanishElement } = selections.spanish;
-            
-            if (words[nahuatlIndex].spanish === words[spanishIndex].spanish) {
-                nahuatlElement.classList.add("matched");
-                spanishElement.classList.add("matched");
-            } else {
-                nahuatlElement.classList.add("wrong");
-                spanishElement.classList.add("wrong");
-            }
-            
-            selections = {};
         }
 
         function checkResults() {
