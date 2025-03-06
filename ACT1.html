@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprende Náhuatl - Relación de Palabras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #ffcc70, #ff9472);
+            color: #fff;
+        }
+        h2 {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 20px;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            width: 200px;
+        }
+        .word, .meaning {
+            padding: 15px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: #ffeb3b;
+            color: #333;
+            border: 2px solid transparent;
+        }
+        .word:hover, .meaning:hover {
+            transform: scale(1.1);
+        }
+        .matched {
+            background-color: lightgreen;
+            border: 2px solid green;
+        }
+        .wrong {
+            background-color: lightcoral;
+            border: 2px solid red;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            background: #ff5722;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #e64a19;
+        }
+        #result {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Aprende Náhuatl: Relaciona las Palabras</h2>
+    <p>Selecciona una palabra en náhuatl y su significado en español.</p>
+    <label for="studentName">Nombre del estudiante:</label>
+    <input type="text" id="studentName" placeholder="Ingresa tu nombre">
+    <br><br>
+    <video width="320" height="240" controls>
+        <source src="VI.mp4" type="video/mp4">
+        Tu navegador no soporta la etiqueta de video.
+    </video>
+    <div class="container">
+        <div class="column" id="nahuatlWords"></div>
+        <div class="column" id="spanishMeanings"></div>
+    </div>
+    <button onclick="checkResults()">Verificar respuestas</button>
+    <p id="result"></p>
+    <script>
+        const words = [
+            { nahuatl: "Atl", spanish: "Agua", audio: "atl.mp3" },
+            { nahuatl: "Tonal", spanish: "Sol", audio: "tonal.mp3" },
+            { nahuatl: "Ocelotl", spanish: "Jaguar", audio: "ocelotl.mp3" },
+            { nahuatl: "Cuauhtli", spanish: "Águila", audio: "cuauhtli.mp3" },
+            { nahuatl: "Chichi", spanish: "Perro", audio: "chichi.mp3" },
+            { nahuatl: "Miztli", spanish: "Gato", audio: "miztli.mp3" },
+            { nahuatl: "Xochitl", spanish: "Flor", audio: "xochitl.mp3" },
+            { nahuatl: "Metztli", spanish: "Luna", audio: "metztli.mp3" },
+            { nahuatl: "Tochtli", spanish: "Conejo", audio: "tochtli.mp3" },
+            { nahuatl: "Tlaloc", spanish: "Dios de la lluvia", audio: "tlaloc.mp3" }
+        ];
+        let selections = {};
+
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        function createColumns() {
+            let nahuatlContainer = document.getElementById("nahuatlWords");
+            let spanishContainer = document.getElementById("spanishMeanings");
+            
+            shuffle(words).forEach((word, index) => {
+                let wordDiv = document.createElement("div");
+                wordDiv.textContent = word.nahuatl;
+                wordDiv.className = "word";
+                wordDiv.onclick = () => {
+                    selectWord(index, wordDiv, "nahuatl");
+                    new Audio(word.audio).play();
+                };
+                nahuatlContainer.appendChild(wordDiv);
+            });
+
+            shuffle(words).forEach((word, index) => {
+                let meaningDiv = document.createElement("div");
+                meaningDiv.textContent = word.spanish;
+                meaningDiv.className = "meaning";
+                meaningDiv.onclick = () => selectWord(index, meaningDiv, "spanish");
+                spanishContainer.appendChild(meaningDiv);
+            });
+        }
+
+        function selectWord(index, element, type) {
+            if (selections[type]) {
+                selections[type].element.classList.remove("selected");
+            }
+            selections[type] = { index, element };
+            element.classList.add("selected");
+            
+            if (selections.nahuatl && selections.spanish) {
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            let { index: nahuatlIndex, element: nahuatlElement } = selections.nahuatl;
+            let { index: spanishIndex, element: spanishElement } = selections.spanish;
+            
+            if (words[nahuatlIndex].spanish === words[spanishIndex].spanish) {
+                nahuatlElement.classList.add("matched");
+                spanishElement.classList.add("matched");
+            } else {
+                nahuatlElement.classList.add("wrong");
+                spanishElement.classList.add("wrong");
+            }
+            
+            selections = {};
+        }
+
+        function checkResults() {
+            let matched = document.querySelectorAll(".matched").length / 2;
+            let wrong = document.querySelectorAll(".wrong").length / 2;
+            document.getElementById("result").textContent = `Aciertos: ${matched}, Errores: ${wrong}`;
+        }
+
+        createColumns();
+    </script>
+</body>
+</html>
