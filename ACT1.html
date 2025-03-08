@@ -3,141 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aprende Náhuatl - Relación de Palabras</title>
+    <title>Brigada 2 - Molino de Flores Nezahualcóyotl</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
             text-align: center;
-            background: linear-gradient(135deg, #ffcc70, #ff9472);
+        }
+        header {
+            background: linear-gradient(135deg, #6D4C41, #8D6E63);
             color: #fff;
-        }
-        h2 {
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        .container {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            margin-top: 20px;
-        }
-        .column {
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(0, 0, 0, 0.2);
+        }
+        .logo {
+            width: 220px;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: auto;
             padding: 20px;
+            background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-            width: 200px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
-        .word, .meaning {
-            padding: 15px;
-            margin: 5px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            background: #ffeb3b;
-            color: #333;
-            border: 2px solid transparent;
-        }
-        .word:hover, .meaning:hover {
-            transform: scale(1.1);
-        }
-        .matched {
-            background-color: lightgreen;
-            border: 2px solid green;
-        }
-        .wrong {
-            background-color: lightcoral;
-            border: 2px solid red;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 18px;
-            font-weight: bold;
-            border: none;
-            background: #ff5722;
-            color: white;
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            border-left: 5px solid #6D4C41;
+            background: #f7f2ef;
             border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
         }
-        button:hover {
-            background: #e64a19;
+        .section img {
+            width: 80%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 10px;
         }
-        #result {
-            font-size: 20px;
-            margin-top: 15px;
+        .datos-curiosos {
+            background-color: #FFEB3B;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        footer {
+            background-color: #5D4037;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
-    <h2>Aprende Náhuatl: Relaciona las Palabras</h2>
-    <p>Selecciona una palabra en náhuatl y su significado en español.</p>
-    <label for="studentName">Nombre del estudiante:</label>
-    <input type="text" id="studentName" placeholder="Ingresa tu nombre">
-    <br><br>
-    <img src="imagen.png" alt="Imagen relacionada" width="320" height="240">
+    <header>
+        <img src="UBBJ.jpg" alt="Ícono de la Escuela" class="logo">
+        <h1>Brigada 2</h1>
+        <h2>Recorrido por el Molino de Flores Nezahualcóyotl</h2>
+        <p> Mendes Arias Jonathan Uriel     <BR>
+                                  Montiel Ortiz Yahir Fernando<BR>   
+                                 Espejel Hernández Juan Manuel   <BR>     
+                                   Salazar Gutierrez Juan Pablo</p>
+    </header>
+
     <div class="container">
-        <div class="column" id="nahuatlWords"></div>
-        <div class="column" id="spanishMeanings"></div>
+        <section id="historia" class="section">
+            <h2>Historia del Molino de Flores</h2>
+            <p>El Molino de Flores es una antigua hacienda ubicada en Texcoco, Estado de México. Se estableció en el siglo XVI y ha pasado por diversas etapas, desde la producción agrícola hasta su uso como cárcel durante la Revolución Mexicana.</p>
+            <p>En el siglo XIX, la hacienda fue propiedad de Juan Manuel González, quien amplió su producción y la convirtió en un centro de comercio regional. Posteriormente, con la Revolución, dejó de funcionar como hacienda y se convirtió en un sitio histórico.</p>
+            <div class="datos-curiosos">
+                <p>📌 Dato curioso: La hacienda ha sido utilizada como locación para diversas películas mexicanas, debido a su apariencia colonial bien conservada.</p>
+            </div>
+        </section>
+
+        <section id="capilla" class="section">
+            <h2>Capilla del Señor de la Presa</h2>
+            <p>Construida en el periodo colonial, servía como lugar de culto para los dueños y trabajadores. La capilla tiene un altar barroco y una imagen del Señor de la Presa, una figura venerada por la comunidad.</p>
+            <p><b>Dimensiones:</b> 15m x 10m | <b>Altitud:</b> 2,250 m sobre el nivel del mar.</p>
+            <img src="cap.jpg" alt="Capilla del Señor de la Presa">
+            <div class="datos-curiosos">
+                <p>📌 Dato curioso: Se dice que la imagen del Señor de la Presa fue hallada en el río cercano y por eso se construyó la capilla en su honor.</p>
+            </div>
+        </section>
+
+        <section id="casa-principal" class="section">
+            <h2>Casa Principal</h2>
+            <p>La Casa Principal era la residencia de los dueños. Posee una estructura de piedra con grandes ventanales y un patio central con jardines.</p>
+            <p><b>Dimensiones:</b> 30m x 20m</p>
+            <img src="casa.jpeg" alt="Casa Principal">
+            <div class="datos-curiosos">
+                <p>📌 Dato curioso: En los años 50, la casa fue utilizada como set de filmación para películas del cine de oro mexicano.</p>
+            </div>
+        </section>
+
+        <section id="tinacal" class="section">
+            <h2>Tinacal</h2>
+            <p>El tinacal era el área donde se fermentaba el aguamiel para producir pulque, una bebida tradicional mexicana.</p>
+            <p><b>Producción:</b> 1,500 litros semanales.</p>
+            <img src="tinacal.jpg" alt="Tinacal">
+            <div class="datos-curiosos">
+                <p>📌 Dato curioso: Se dice que los hacendados vendían el pulque a comerciantes de la Ciudad de México.</p>
+            </div>
+        </section>
+
+        <section id="trojes" class="section">
+            <h2>Trojes</h2>
+            <p>Almacenes para guardar el grano cosechado. Estas estructuras tenían techos altos para evitar la humedad.</p>
+            <p><b>Capacidad:</b> 50 toneladas.</p>
+            <img src="trojes.jpg" alt="Trojes">
+            <div class="datos-curiosos">
+                <p>📌 Dato curioso: Algunas trojes antiguas aún conservan herramientas agrícolas de la época.</p>
+            </div>
+        </section>
     </div>
-    <button onclick="checkResults()">Verificar respuestas</button>
-    <p id="result"></p>
-    <h3>Escribe una oración usando las palabras aprendidas:</h3>
-    <textarea id="sentenceInput" rows="4" cols="50" placeholder="Escribe aquí..."></textarea>
-    <script>
-        const words = [
-            { nahuatl: "Atl", spanish: "Agua", audio: "atl.mp3" },
-            { nahuatl: "Tonal", spanish: "Sol", audio: "tonal.mp3" },
-            { nahuatl: "Ocelotl", spanish: "Jaguar", audio: "ocelotl.mp3" },
-            { nahuatl: "Cuauhtli", spanish: "Águila", audio: "cuauhtli.mp3" },
-            { nahuatl: "Chichi", spanish: "Perro", audio: "chichi.mp3" },
-            { nahuatl: "Miztli", spanish: "Gato", audio: "miztli.mp3" },
-            { nahuatl: "Xochitl", spanish: "Flor", audio: "xochitl.mp3" },
-            { nahuatl: "Metztli", spanish: "Luna", audio: "metztli.mp3" },
-            { nahuatl: "Tochtli", spanish: "Conejo", audio: "tochtli.mp3" },
-            { nahuatl: "Tlaloc", spanish: "Dios de la lluvia", audio: "tlaloc.mp3" }
-        ];
-        let selections = {};
 
-        function shuffle(array) {
-            return array.sort(() => Math.random() - 0.5);
-        }
-
-        function createColumns() {
-            let nahuatlContainer = document.getElementById("nahuatlWords");
-            let spanishContainer = document.getElementById("spanishMeanings");
-            
-            shuffle(words).forEach((word, index) => {
-                let wordDiv = document.createElement("div");
-                wordDiv.textContent = word.nahuatl;
-                wordDiv.className = "word";
-                wordDiv.onclick = () => {
-                    selectWord(index, wordDiv, "nahuatl");
-                    new Audio(word.audio).play();
-                };
-                nahuatlContainer.appendChild(wordDiv);
-            });
-
-            shuffle(words).forEach((word, index) => {
-                let meaningDiv = document.createElement("div");
-                meaningDiv.textContent = word.spanish;
-                meaningDiv.className = "meaning";
-                meaningDiv.onclick = () => selectWord(index, meaningDiv, "spanish");
-                spanishContainer.appendChild(meaningDiv);
-            });
-        }
-
-        function checkResults() {
-            let matched = document.querySelectorAll(".matched").length / 2;
-            let wrong = document.querySelectorAll(".wrong").length / 2;
-            document.getElementById("result").textContent = `Aciertos: ${matched}, Errores: ${wrong}`;
-        }
-
-        createColumns();
-    </script>
+    <footer>
+        <p>&copy; 2025 - Brigada 2 | Molino de Flores Nezahualcóyotl</p>
+    </footer>
 </body>
 </html>
